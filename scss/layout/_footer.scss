@@ -1,0 +1,169 @@
+// =============================================================================
+// Footer - Enhanced footer component with responsive design
+// =============================================================================
+
+.footer {
+  background-color: color(primary);
+  color: color(white);
+  padding-top: spacing(12);
+  padding-bottom: spacing(12);
+  
+  @include tablet-up {
+    padding-top: spacing(16);
+    padding-bottom: spacing(16);
+  }
+  
+  @include mobile-only {
+    padding-top: spacing(10);
+    padding-bottom: spacing(10);
+    text-align: center;
+  }
+  
+  &__container {
+    @include container;
+  }
+  
+  &__title {
+    @include typography(xl, medium);
+    color: color(white);
+    margin-bottom: spacing(1);
+    
+    @include mobile-only {
+      @include typography(lg, medium);
+    }
+  }
+  
+  &__description {
+    @include typography(sm, normal);
+    color: color-alpha(color(white), 0.8);
+    
+    @include mobile-only {
+      @include typography(xs, normal);
+    }
+  }
+  
+  // Footer variants
+  &--extended {
+    .footer__container {
+      @include grid(4, spacing(8));
+      align-items: start;
+      text-align: left;
+      
+      @include tablet-only {
+        @include grid(2, spacing(6));
+      }
+      
+      @include mobile-only {
+        @include grid(1, spacing(6));
+        text-align: center;
+      }
+    }
+  }
+  
+  &--minimal {
+    padding-top: spacing(8);
+    padding-bottom: spacing(8);
+    
+    .footer__container {
+      @include flex-between;
+      
+      @include mobile-only {
+        @include flex-column;
+        gap: spacing(4);
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Footer sections (for extended footer)
+.footer-section {
+  &__title {
+    @include typography(base, semibold);
+    color: color(white);
+    margin-bottom: spacing(4);
+  }
+  
+  &__list {
+    @include reset-list;
+    
+    li {
+      margin-bottom: spacing(2);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    a {
+      color: color-alpha(color(white), 0.8);
+      text-decoration: none;
+      transition: map-get($transitions, default);
+      
+      &:hover,
+      &:focus {
+        color: color(white);
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Social links
+.footer-social {
+  @include flex-center;
+  gap: spacing(4);
+  
+  @include mobile-only {
+    justify-content: center;
+  }
+  
+  &__link {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    color: color-alpha(color(white), 0.8);
+    background-color: color-alpha(color(white), 0.1);
+    border-radius: border-radius(full);
+    text-decoration: none;
+    transition: map-get($transitions, default);
+    
+    &:hover,
+    &:focus {
+      color: color(white);
+      background-color: color-alpha(color(white), 0.2);
+      transform: translateY(-2px);
+    }
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Copyright
+.footer-copyright {
+  margin-top: spacing(8);
+  padding-top: spacing(6);
+  border-top: 1px solid color-alpha(color(white), 0.2);
+  text-align: center;
+  
+  p {
+    @include typography(sm, normal);
+    color: color-alpha(color(white), 0.7);
+    margin: 0;
+  }
+  
+  a {
+    color: color(white);
+    text-decoration: none;
+    
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+

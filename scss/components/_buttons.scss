@@ -1,0 +1,310 @@
+// =============================================================================
+// Buttons - Enhanced button component with multiple variants and states
+// =============================================================================
+
+// Base button class
+.btn {
+  @include button;
+  
+  // Size variants
+  &--sm {
+    @include button(primary, sm);
+  }
+  
+  &--lg {
+    @include button(primary, lg);
+  }
+  
+  // Style variants
+  &--primary {
+    @include button(primary);
+  }
+  
+  &--secondary {
+    @include button(secondary);
+  }
+  
+  &--outline {
+    @include button(outline);
+  }
+  
+  &--ghost {
+    background-color: transparent;
+    color: color(primary);
+    border: 2px solid transparent;
+    
+    &:hover:not(:disabled) {
+      background-color: color-alpha(color(primary), 0.1);
+      border-color: color(primary);
+    }
+  }
+  
+  &--link {
+    background-color: transparent;
+    color: color(primary);
+    border: none;
+    padding: 0;
+    min-height: auto;
+    text-transform: none;
+    letter-spacing: normal;
+    
+    &:hover:not(:disabled) {
+      color: color(primary-dark);
+      text-decoration: underline;
+      transform: none;
+    }
+  }
+  
+  // State variants
+  &--success {
+    background-color: color(success);
+    color: color(white);
+    
+    &:hover:not(:disabled) {
+      background-color: darken(color(success), 10%);
+    }
+  }
+  
+  &--warning {
+    background-color: color(warning);
+    color: color(black);
+    
+    &:hover:not(:disabled) {
+      background-color: darken(color(warning), 10%);
+    }
+  }
+  
+  &--danger {
+    background-color: color(danger);
+    color: color(white);
+    
+    &:hover:not(:disabled) {
+      background-color: darken(color(danger), 10%);
+    }
+  }
+  
+  // Loading state
+  &--loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: button-spin 0.6s linear infinite;
+    }
+  }
+  
+  // Full width
+  &--block {
+    width: 100%;
+  }
+  
+  // Icon buttons
+  &--icon-only {
+    padding: spacing(3);
+    min-width: auto;
+    
+    &.btn--sm {
+      padding: spacing(2);
+    }
+    
+    &.btn--lg {
+      padding: spacing(4);
+    }
+  }
+  
+  // Button with icon
+  .btn__icon {
+    margin-right: spacing(2);
+    
+    &--right {
+      margin-right: 0;
+      margin-left: spacing(2);
+    }
+    
+    &--only {
+      margin: 0;
+    }
+  }
+  
+  // Rounded variants
+  &--rounded {
+    border-radius: border-radius(full);
+  }
+  
+  &--square {
+    border-radius: 0;
+  }
+}
+
+// Button group
+.btn-group {
+  display: inline-flex;
+  vertical-align: middle;
+  
+  .btn {
+    position: relative;
+    flex: 1 1 auto;
+    
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+    
+    &:not(:last-child):not(.dropdown-toggle) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    &:hover,
+    &:focus,
+    &.active {
+      z-index: 1;
+    }
+  }
+  
+  // Vertical button group
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    
+    .btn {
+      width: 100%;
+      
+      &:not(:first-child) {
+        margin-left: 0;
+        margin-top: -1px;
+      }
+      
+      &:not(:last-child):not(.dropdown-toggle) {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: border-radius(md);
+      }
+      
+      &:not(:first-child) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: border-radius(md);
+      }
+    }
+  }
+  
+  // Sizes
+  &--sm .btn {
+    @include button(primary, sm);
+  }
+  
+  &--lg .btn {
+    @include button(primary, lg);
+  }
+}
+
+// Floating Action Button
+.fab {
+  @include button(primary);
+  position: fixed;
+  bottom: spacing(6);
+  right: spacing(6);
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: shadow(lg);
+  z-index: z-index(fixed);
+  
+  &:hover {
+    box-shadow: shadow(xl);
+  }
+  
+  @include mobile-only {
+    bottom: spacing(4);
+    right: spacing(4);
+    width: 48px;
+    height: 48px;
+  }
+}
+
+// Toggle button
+.btn-toggle {
+  @include button(outline);
+  
+  &.active {
+    background-color: color(primary);
+    color: color(white);
+    border-color: color(primary);
+  }
+  
+  input[type="checkbox"],
+  input[type="radio"] {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+  }
+}
+
+// Close button
+.btn-close {
+  @include reset-button;
+  @include flex-center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: color(secondary);
+  background: transparent;
+  border-radius: border-radius(sm);
+  transition: map-get($transitions, default);
+  
+  &:hover,
+  &:focus {
+    color: color(black);
+    background-color: color-alpha(color(black), 0.1);
+  }
+  
+  &::before {
+    content: '×';
+    font-size: 24px;
+    line-height: 1;
+  }
+}
+
+// Animations
+@keyframes button-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Legacy button class (for backward compatibility)
+.hero__button {
+  @extend .btn;
+  @extend .btn--primary;
+  @extend .btn--lg;
+  
+  min-width: 225px;
+  min-height: 65px;
+  
+  @include mobile-only {
+    min-width: 200px;
+    min-height: 56px;
+    font-size: font-size(sm);
+  }
+}

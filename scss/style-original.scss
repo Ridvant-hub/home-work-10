@@ -1,52 +1,18 @@
-:root {
-  --color-primary: #34547a;
-  --color-secondary: #727272;
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-light: #eeeff1;
-  --font-primary: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;
-  --font-size-base: 1rem;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --line-height-normal: 1.5;
-  --line-height-tight: 1.2;
-  --letter-spacing-wide: 0.1em;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1.25rem;
-  --spacing-lg: 2rem;
-  --container-primary: 1110px;
-  --container-sm: 540px;
-}
+// =============================================================================
+// Original Simple Site Styles - SCSS Enhanced Version
+// Відтворення оригінального дизайну з використанням SCSS архітектури
+// =============================================================================
 
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes slideInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes slideInDown {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes slideInLeft {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+// 1. ABSTRACTS - Імпорт всіх змінних, функцій та міксинів
+@import 'abstracts/variables';
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+
+// =============================================================================
+// ORIGINAL DESIGN RECREATION - Точне відтворення оригінального CSS
+// =============================================================================
+
+// Reset та базові стилі
 * {
   box-sizing: border-box;
   margin: 0;
@@ -61,6 +27,7 @@ html {
   font-weight: var(--font-weight-normal);
 }
 
+// Типографіка - точно як в оригіналі
 h1 {
   font-size: 3rem;
   font-weight: var(--font-weight-medium);
@@ -78,6 +45,7 @@ a {
   color: var(--color-black);
 }
 
+// Загальні класи
 .container {
   width: min(100% - var(--spacing-lg), var(--container-primary));
   margin-inline: auto;
@@ -102,113 +70,134 @@ a {
   visibility: hidden;
 }
 
+// =============================================================================
+// HEADER - Точно як в оригіналі
+// =============================================================================
 .header {
   padding-top: 67px;
   padding-bottom: 141px;
   background-color: var(--color-light);
 }
 
+// Navbar - оригінальні стилі
 .navbar {
   margin-bottom: 144px;
   position: relative;
-}
-.navbar__toggle {
-  display: none;
-}
-.navbar__btn {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px;
-  padding: 8px;
-  margin-left: auto;
-  margin-bottom: 20px;
-  background: none;
-  border: none;
-}
-.navbar__btn-row {
-  width: 24px;
-  height: 3px;
-  background-color: var(--color-primary);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-  display: block;
-}
-.navbar__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm) var(--spacing-md);
-  margin-left: calc(var(--spacing-sm) * -1);
-}
-.navbar__link {
-  position: relative;
-  display: block;
-  letter-spacing: var(--letter-spacing-wide);
-  padding: var(--spacing-sm);
-  text-transform: uppercase;
-}
-.navbar__link--active {
-  color: var(--color-primary);
-  font-weight: var(--font-weight-medium);
-}
-.navbar__link::after {
-  content: "";
-  position: absolute;
-  display: block;
-  bottom: 0;
-  left: calc(var(--spacing-sm) * -1);
-  right: calc(var(--spacing-sm) * -1);
-  height: 3px;
-  background-color: var(--color-primary);
-  border-radius: 3px;
-  transform: scaleX(0);
-  transform-origin: center;
-  opacity: 0;
-  transition: all 0.3s ease-out;
-}
-.navbar__link:hover::after {
-  transform: scaleX(1);
-  opacity: 1;
+  
+  &__toggle {
+    display: none;
+  }
+  
+  &__btn {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 8px;
+    margin-left: auto;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+  }
+  
+  &__btn-row {
+    width: 24px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm) var(--spacing-md);
+    margin-left: calc(var(--spacing-sm) * -1);
+  }
+  
+  &__link {
+    position: relative;
+    display: block;
+    letter-spacing: var(--letter-spacing-wide);
+    padding: var(--spacing-sm);
+    text-transform: uppercase;
+    
+    &--active {
+      color: var(--color-primary);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      bottom: 0;
+      left: calc(var(--spacing-sm) * -1);
+      right: calc(var(--spacing-sm) * -1);
+      height: 3px;
+      background-color: var(--color-primary);
+      border-radius: 3px;
+      transform: scaleX(0);
+      transform-origin: center;
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+    
+    &:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
 }
 
+// Hero - оригінальні стилі
 .hero {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   max-width: 540px;
-}
-.hero__title {
-  margin: 0 0 44px;
-}
-.hero__description {
-  margin-bottom: 56px;
-  color: var(--color-secondary);
-}
-.hero__button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5em;
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  letter-spacing: var(--letter-spacing-wide);
-  min-width: 225px;
-  min-height: 65px;
-  text-transform: uppercase;
+  
+  &__title {
+    margin: 0 0 44px;
+  }
+  
+  &__description {
+    margin-bottom: 56px;
+    color: var(--color-secondary);
+  }
+  
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    letter-spacing: var(--letter-spacing-wide);
+    min-width: 225px;
+    min-height: 65px;
+    text-transform: uppercase;
+  }
 }
 
+// =============================================================================
+// SECTIONS - Оригінальні стилі
+// =============================================================================
 .section {
   padding-top: 110px;
   padding-bottom: 90px;
   text-align: center;
-}
-.section__title {
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
-  margin-bottom: 40px;
-}
-.section__description {
-  color: var(--color-secondary);
+  
+  &__title {
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    margin-bottom: 40px;
+  }
+  
+  &__description {
+    color: var(--color-secondary);
+  }
 }
 
 .about {
@@ -219,88 +208,112 @@ a {
   background-color: var(--color-light);
 }
 
+// Experience section - оригінальні стилі
 .experience {
   background-color: var(--color-primary);
   color: var(--color-white);
   padding-top: 100px;
   padding-bottom: 100px;
-}
-.experience__container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  justify-content: space-between;
+  
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    justify-content: space-between;
+  }
 }
 
 .experience-item {
   display: flex;
   gap: var(--spacing-md);
-}
-.experience-item__description {
-  line-height: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.experience-item__value {
-  font-size: 1.3125rem;
-  font-weight: var(--font-weight-medium);
-}
-.experience-item__picture {
-  order: -1;
-}
-.experience-item__image {
-  display: block;
+  
+  &__description {
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  &__value {
+    font-size: 1.3125rem;
+    font-weight: var(--font-weight-medium);
+  }
+  
+  &__picture {
+    order: -1;
+  }
+  
+  &__image {
+    display: block;
+  }
 }
 
+// Video section - оригінальні стилі
 .video {
   padding-bottom: 100px;
   background-color: var(--color-light);
   margin-top: calc(var(--spacing-lg) * -1);
-}
-.video__iframe {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16/9;
-  border: 0;
+  
+  &__iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
 }
 
+// =============================================================================
+// FOOTER - Оригінальні стилі
+// =============================================================================
 .footer {
   background-color: var(--color-primary);
   color: var(--color-white);
   padding-top: 50px;
   padding-bottom: 50px;
-}
-.footer__title {
-  font-size: 1.3125rem;
-  font-weight: var(--font-weight-medium);
-  margin-bottom: 5px;
-}
-.footer__description {
-  font-size: 0.8125rem;
+  
+  &__title {
+    font-size: 1.3125rem;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: 5px;
+  }
+  
+  &__description {
+    font-size: 0.8125rem;
+  }
 }
 
+// =============================================================================
+// RESPONSIVE - Оригінальні медіа-запити
+// =============================================================================
+
+// Large tablets and small desktops
 @media (max-width: 1024px) {
   .container {
     width: min(100% - var(--spacing-md), var(--container-primary));
   }
+  
   .container-sm {
     width: min(100% - var(--spacing-md), var(--container-sm));
   }
+  
   .experience__container {
     justify-content: center;
     gap: var(--spacing-md);
   }
+  
   .experience-item {
-    flex: 0 0 calc(50% - var(--spacing-md) / 2);
+    flex: 0 0 calc(50% - var(--spacing-md)/2);
     max-width: 300px;
   }
 }
+
+// Tablets
 @media (max-width: 768px) {
   .navbar__btn {
     display: flex;
   }
+  
   .navbar__list {
     position: absolute;
     top: 100%;
@@ -320,172 +333,222 @@ a {
     max-height: 0;
     overflow: hidden;
   }
+  
   .navbar__toggle:checked ~ .navbar__list {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
     max-height: 500px;
   }
+  
+  // Burger menu animation
   .navbar__toggle:checked ~ .navbar__btn .navbar__btn-row:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
+  
   .navbar__toggle:checked ~ .navbar__btn .navbar__btn-row:nth-child(2) {
     opacity: 0;
   }
+  
   .navbar__toggle:checked ~ .navbar__btn .navbar__btn-row:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
   }
+  
   .navbar__link {
     padding: var(--spacing-sm) 0;
     border-bottom: 1px solid rgba(52, 84, 122, 0.1);
   }
+  
   .navbar__item:last-child .navbar__link {
     border-bottom: none;
   }
+  
   .navbar__link:focus {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+  
   .navbar {
     margin-bottom: 80px;
   }
+  
   .header {
     padding-top: 40px;
     padding-bottom: 80px;
   }
+  
   h1 {
     font-size: 2.5rem;
   }
+  
   h2 {
     font-size: 1.75rem;
   }
+  
   .hero__title {
     margin-bottom: 30px;
   }
+  
   .hero__description {
     margin-bottom: 40px;
   }
+  
   .section {
     padding-top: 80px;
     padding-bottom: 60px;
   }
+  
   .experience {
     padding-top: 60px;
     padding-bottom: 60px;
   }
+  
   .experience__container {
     gap: var(--spacing-md);
   }
+  
   .experience-item {
     flex: 0 0 100%;
     max-width: none;
     justify-content: center;
   }
+  
   .video {
     padding-bottom: 60px;
   }
 }
+
+// Mobile devices
 @media (max-width: 480px) {
   :root {
     --spacing-md: 16px;
   }
+  
   .container, .container-sm {
     width: min(100% - 16px, var(--container-primary));
   }
+  
   .header {
     padding-top: 30px;
     padding-bottom: 60px;
   }
+  
   .navbar {
     margin-bottom: 60px;
   }
+  
   h1 {
     font-size: 2rem;
   }
+  
   h2 {
     font-size: 1.5rem;
   }
+  
   .hero__title {
     margin-bottom: 24px;
   }
+  
   .hero__description {
     margin-bottom: 32px;
     font-size: 0.9rem;
   }
+  
   .hero__button {
     min-width: 200px;
     min-height: 56px;
     font-size: 0.9rem;
   }
+  
   .section {
     padding-top: 60px;
     padding-bottom: 40px;
   }
+  
   .section__title {
     margin-bottom: 24px;
   }
+  
   .section__description {
     font-size: 0.9rem;
   }
+  
   .experience {
     padding-top: 50px;
     padding-bottom: 50px;
   }
+  
   .experience__container {
     gap: 16px;
   }
+  
   .experience-item {
     gap: 10px;
   }
+  
   .experience-item__value {
     font-size: 1.125rem;
   }
+  
   .experience-item__label {
     font-size: 0.9rem;
   }
+  
   .video {
     padding-bottom: 50px;
   }
+  
   .footer {
     padding-top: 40px;
     padding-bottom: 40px;
     text-align: center;
   }
+  
   .footer__title {
     font-size: 1.125rem;
   }
+  
   .footer__description {
     font-size: 0.75rem;
   }
 }
+
+// Extra small mobile devices
 @media (max-width: 375px) {
   :root {
     --spacing-md: 12px;
   }
+  
   .container, .container-sm {
     width: min(100% - 12px, var(--container-primary));
   }
+  
   h1 {
     font-size: 1.75rem;
   }
+  
   h2 {
     font-size: 1.375rem;
   }
+  
   .hero__button {
     min-width: 180px;
     min-height: 50px;
     font-size: 0.85rem;
   }
+  
   .section__description,
   .hero__description {
     font-size: 0.85rem;
   }
+  
   .experience-item__value {
     font-size: 1rem;
   }
+  
   .experience-item__label {
     font-size: 0.85rem;
   }
 }
 
-/*# sourceMappingURL=style.css.map */
+

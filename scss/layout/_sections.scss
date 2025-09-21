@@ -1,0 +1,431 @@
+// =============================================================================
+// Sections - Enhanced section layouts with responsive design
+// =============================================================================
+
+// Base section
+.section {
+  padding-top: spacing(24);
+  padding-bottom: spacing(20);
+  text-align: center;
+  position: relative;
+  
+  @include tablet-up {
+    padding-top: spacing(20);
+    padding-bottom: spacing(16);
+  }
+  
+  @include mobile-only {
+    padding-top: spacing(16);
+    padding-bottom: spacing(12);
+  }
+  
+  // Section title
+  &__title {
+    @include typography(3xl, medium, tight);
+    margin-bottom: spacing(10);
+    color: color(black);
+    
+    @include tablet-up {
+      @include typography(4xl, medium, tight);
+      margin-bottom: spacing(12);
+    }
+    
+    @include mobile-only {
+      @include typography(2xl, medium, tight);
+      margin-bottom: spacing(8);
+    }
+  }
+  
+  &__description {
+    color: color(secondary);
+    font-size: font-size(base);
+    line-height: line-height(relaxed);
+    max-width: 600px;
+    margin: 0 auto;
+    
+    @include tablet-up {
+      font-size: font-size(lg);
+    }
+    
+    @include mobile-only {
+      font-size: font-size(sm);
+    }
+  }
+  
+  // Section variants
+  &--light {
+    background-color: color(white);
+  }
+  
+  &--dark {
+    background-color: color(primary);
+    color: color(white);
+    
+    .section__title {
+      color: color(white);
+    }
+    
+    .section__description {
+      color: color-alpha(color(white), 0.8);
+    }
+  }
+  
+  &--gray {
+    background-color: color(light);
+  }
+  
+  &--full-height {
+    min-height: 100vh;
+    @include flex-center;
+    
+    .container,
+    .container-sm {
+      width: 100%;
+    }
+  }
+}
+
+// About section
+.about {
+  @extend .section;
+  @extend .section--light;
+  
+  &__grid {
+    @include container;
+    @include grid(2, spacing(12));
+    align-items: center;
+    text-align: left;
+    margin-top: spacing(16);
+    
+    @include tablet-only {
+      @include grid(1, spacing(8));
+      text-align: center;
+      margin-top: spacing(12);
+    }
+    
+    @include mobile-only {
+      @include grid(1, spacing(6));
+      text-align: center;
+      margin-top: spacing(8);
+    }
+  }
+  
+  &__content {
+    // Content styles handled by typography base
+  }
+  
+  &__image {
+    @include aspect-ratio(4, 3);
+    border-radius: border-radius(lg);
+    overflow: hidden;
+    box-shadow: shadow(lg);
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform map-get($transitions, slow);
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Experience section
+.experience {
+  @extend .section;
+  @extend .section--dark;
+  
+  &__container {
+    @include container;
+    @include grid(auto-fit, spacing(10));
+    margin-top: spacing(12);
+    
+    @include tablet-only {
+      @include grid(2, spacing(8));
+      justify-content: center;
+    }
+    
+    @include mobile-only {
+      @include grid(1, spacing(6));
+    }
+  }
+}
+
+// Experience item
+.experience-item {
+  @include flex-center;
+  gap: spacing(5);
+  
+  @include mobile-only {
+    gap: spacing(3);
+  }
+  
+  &__description {
+    line-height: line-height(none);
+    @include flex-column;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  &__value {
+    @include typography(xl, medium);
+    color: color(white);
+    margin-bottom: spacing(1);
+    
+    @include mobile-only {
+      @include typography(lg, medium);
+    }
+  }
+  
+  &__label {
+    @include typography(base, normal);
+    color: color-alpha(color(white), 0.8);
+    
+    @include mobile-only {
+      @include typography(sm, normal);
+    }
+  }
+  
+  &__picture {
+    order: -1;
+    flex-shrink: 0;
+  }
+  
+  &__image {
+    display: block;
+    width: 48px;
+    height: 48px;
+    filter: brightness(0) invert(1);
+    
+    @include mobile-only {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+// Process section
+.process {
+  @extend .section;
+  @extend .section--gray;
+}
+
+// Video section
+.video {
+  padding-bottom: spacing(24);
+  background-color: color(light);
+  margin-top: calc(#{spacing(10)} * -1);
+  
+  @include tablet-up {
+    padding-bottom: spacing(20);
+  }
+  
+  @include mobile-only {
+    padding-bottom: spacing(16);
+  }
+  
+  &__iframe {
+    @include container;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: border-radius(lg);
+    box-shadow: shadow(lg);
+    
+    @include mobile-only {
+      border-radius: border-radius(md);
+    }
+  }
+}
+
+// Container utilities
+.container {
+  @include container(primary);
+}
+
+.container-sm {
+  @include container(sm);
+}
+
+// Grid utilities
+.grid {
+  @include grid;
+  
+  &--2 {
+    @include grid(2);
+  }
+  
+  &--3 {
+    @include grid(3);
+    
+    @include tablet-only {
+      @include grid(2);
+    }
+    
+    @include mobile-only {
+      @include grid(1);
+    }
+  }
+  
+  &--4 {
+    @include grid(4);
+    
+    @include tablet-only {
+      @include grid(2);
+    }
+    
+    @include mobile-only {
+      @include grid(1);
+    }
+  }
+  
+  &--auto {
+    @include grid(auto-fit);
+  }
+}
+
+// Flex utilities
+.flex {
+  display: flex;
+  
+  &--center {
+    @include flex-center;
+  }
+  
+  &--between {
+    @include flex-between;
+  }
+  
+  &--column {
+    @include flex-column;
+  }
+  
+  &--column-center {
+    @include flex-column-center;
+  }
+  
+  &--wrap {
+    flex-wrap: wrap;
+  }
+  
+  &--nowrap {
+    flex-wrap: nowrap;
+  }
+}
+
+// Spacing utilities
+@include generate-spacing(margin, m);
+@include generate-spacing(padding, p);
+
+// Visibility utilities
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-inline {
+  display: inline !important;
+}
+
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.d-grid {
+  display: grid !important;
+}
+
+// Responsive visibility
+@include mobile-only {
+  .d-mobile-none {
+    display: none !important;
+  }
+  
+  .d-mobile-block {
+    display: block !important;
+  }
+}
+
+@include tablet-only {
+  .d-tablet-none {
+    display: none !important;
+  }
+  
+  .d-tablet-block {
+    display: block !important;
+  }
+}
+
+@include desktop-up {
+  .d-desktop-none {
+    display: none !important;
+  }
+  
+  .d-desktop-block {
+    display: block !important;
+  }
+}
+
+// Animation utilities
+.animate-fade-in {
+  @include fade-in;
+}
+
+.animate-slide-up {
+  @include slide-in(up);
+}
+
+.animate-slide-down {
+  @include slide-in(down);
+}
+
+.animate-slide-left {
+  @include slide-in(left);
+}
+
+.animate-slide-right {
+  @include slide-in(right);
+}
+
+.hover-lift {
+  @include hover-lift;
+}
+
+// Background utilities
+.bg-primary {
+  background-color: color(primary) !important;
+}
+
+.bg-secondary {
+  background-color: color(secondary) !important;
+}
+
+.bg-light {
+  background-color: color(light) !important;
+}
+
+.bg-white {
+  background-color: color(white) !important;
+}
+
+.bg-black {
+  background-color: color(black) !important;
+}
+
+

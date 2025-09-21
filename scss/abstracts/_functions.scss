@@ -1,0 +1,267 @@
+// =============================================================================
+// SCSS Functions - Utility functions for calculations and data retrieval
+// =============================================================================
+
+// Map Deep Get Function
+// =============================================================================
+/// Deep get function for nested maps
+/// @param {Map} $map - The map to search
+/// @param {Arglist} $keys - Keys to search for
+/// @return {*} - The value found or null
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+  @return $map;
+}
+
+// Color Functions
+// =============================================================================
+/// Get color from the colors map
+/// @param {String} $color-name - The color name
+/// @return {Color} - The color value
+@function color($color-name) {
+  @return map-get($colors, $color-name);
+}
+
+/// Create color variations
+/// @param {Color} $color - Base color
+/// @param {Number} $percentage - Percentage to lighten/darken
+/// @return {Color} - Modified color
+@function color-variant($color, $percentage: 10%) {
+  @if $percentage > 0 {
+    @return lighten($color, $percentage);
+  } @else {
+    @return darken($color, abs($percentage));
+  }
+}
+
+/// Create alpha variant of color
+/// @param {Color} $color - Base color
+/// @param {Number} $alpha - Alpha value (0-1)
+/// @return {Color} - Color with alpha
+@function color-alpha($color, $alpha: 0.5) {
+  @return rgba($color, $alpha);
+}
+
+// Typography Functions
+// =============================================================================
+/// Get font size from the font-sizes map
+/// @param {String} $size - The size name
+/// @return {Number} - The font size
+@function font-size($size) {
+  @return map-get($font-sizes, $size);
+}
+
+/// Get font weight from the font-weights map
+/// @param {String} $weight - The weight name
+/// @return {Number} - The font weight
+@function font-weight($weight) {
+  @return map-get($font-weights, $weight);
+}
+
+/// Get line height from the line-heights map
+/// @param {String} $height - The height name
+/// @return {Number} - The line height
+@function line-height($height) {
+  @return map-get($line-heights, $height);
+}
+
+/// Calculate optimal line height based on font size
+/// @param {Number} $font-size - The font size
+/// @param {Number} $baseline - The baseline grid (default: 1.5rem)
+/// @return {Number} - Calculated line height
+@function optimal-line-height($font-size, $baseline: 1.5rem) {
+  @return ceil($font-size / $baseline) * $baseline;
+}
+
+// Spacing Functions
+// =============================================================================
+/// Get spacing value from the spacings map
+/// @param {String|Number} $spacing - The spacing name or multiplier
+/// @return {Number} - The spacing value
+@function spacing($spacing) {
+  @if type-of($spacing) == number {
+    @return $spacing-base * $spacing;
+  }
+  @return map-get($spacings, $spacing);
+}
+
+/// Calculate fluid spacing using clamp()
+/// @param {Number} $min - Minimum spacing
+/// @param {Number} $max - Maximum spacing
+/// @param {Number} $viewport-min - Minimum viewport width
+/// @param {Number} $viewport-max - Maximum viewport width
+/// @return {String} - Clamp function
+@function fluid-spacing($min, $max, $viewport-min: 320px, $viewport-max: 1200px) {
+  $slope: ($max - $min) / ($viewport-max - $viewport-min);
+  $intercept: $min - $slope * $viewport-min;
+  
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100vw}, #{$max});
+}
+
+// Layout Functions
+// =============================================================================
+/// Get container width from the containers map
+/// @param {String} $container - The container name
+/// @return {Number} - The container width
+@function container($container) {
+  @return map-get($containers, $container);
+}
+
+/// Get breakpoint value from the breakpoints map
+/// @param {String} $breakpoint - The breakpoint name
+/// @return {Number} - The breakpoint value
+@function breakpoint($breakpoint) {
+  @return map-get($breakpoints, $breakpoint);
+}
+
+/// Calculate grid column width
+/// @param {Number} $columns - Number of columns
+/// @param {Number} $total-columns - Total columns in grid
+/// @param {Number} $gutter - Gutter width
+/// @return {Number} - Column width percentage
+@function grid-width($columns, $total-columns: map-get($grid, columns), $gutter: map-get($grid, gutter)) {
+  @return percentage($columns / $total-columns);
+}
+
+// Component Functions
+// =============================================================================
+/// Get border radius from the border-radius map
+/// @param {String} $radius - The radius name
+/// @return {Number} - The border radius
+@function border-radius($radius) {
+  @return map-get($border-radius, $radius);
+}
+
+/// Get shadow from the shadows map
+/// @param {String} $shadow - The shadow name
+/// @return {String} - The box shadow
+@function shadow($shadow) {
+  @return map-get($shadows, $shadow);
+}
+
+/// Get z-index from the z-indexes map
+/// @param {String} $layer - The layer name
+/// @return {Number} - The z-index value
+@function z-index($layer) {
+  @return map-get($z-indexes, $layer);
+}
+
+// Mathematical Functions
+// =============================================================================
+/// Convert pixels to rem
+/// @param {Number} $pixels - Pixel value
+/// @param {Number} $base-font-size - Base font size (default: 16px)
+/// @return {Number} - Rem value
+@function px-to-rem($pixels, $base-font-size: 16px) {
+  @return ($pixels / $base-font-size) * 1rem;
+}
+
+/// Convert rem to pixels
+/// @param {Number} $rem - Rem value
+/// @param {Number} $base-font-size - Base font size (default: 16px)
+/// @return {Number} - Pixel value
+@function rem-to-px($rem, $base-font-size: 16px) {
+  @return ($rem / 1rem) * $base-font-size;
+}
+
+/// Calculate aspect ratio padding
+/// @param {Number} $width - Width value
+/// @param {Number} $height - Height value
+/// @return {Number} - Padding percentage
+@function aspect-ratio($width, $height) {
+  @return percentage($height / $width);
+}
+
+/// Strip unit from number
+/// @param {Number} $number - Number with unit
+/// @return {Number} - Number without unit
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+// String Functions
+// =============================================================================
+/// Replace substring in string
+/// @param {String} $string - Original string
+/// @param {String} $search - String to search for
+/// @param {String} $replace - String to replace with
+/// @return {String} - Modified string
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
+
+/// Convert string to number
+/// @param {String} $string - String to convert
+/// @return {Number} - Converted number
+@function to-number($string) {
+  @if type-of($string) == 'number' {
+    @return $string;
+  } @else if type-of($string) != 'string' {
+    $_: log('Value for `to-number` should be a number or a string.');
+  }
+  
+  $result: 0;
+  $digits: 0;
+  $minus: str-slice($string, 1, 1) == '-';
+  $numbers: ('0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9);
+  
+  @for $i from if($minus, 2, 1) through str-length($string) {
+    $character: str-slice($string, $i, $i);
+    
+    @if not (index(map-keys($numbers), $character) or $character == '.') {
+      @return to-length(if($minus, -$result, $result), str-slice($string, $i))
+    }
+    
+    @if $character == '.' {
+      $digits: 1;
+    } @else if $digits == 0 {
+      $result: $result * 10 + map-get($numbers, $character);
+    } @else {
+      $digits: $digits * 10;
+      $result: $result + map-get($numbers, $character) / $digits;
+    }
+  }
+  
+  @return if($minus, -$result, $result);
+}
+
+// Validation Functions
+// =============================================================================
+/// Check if value exists in map
+/// @param {Map} $map - Map to check
+/// @param {String} $key - Key to search for
+/// @return {Boolean} - True if key exists
+@function map-has-key-deep($map, $keys...) {
+  @each $key in $keys {
+    @if not map-has-key($map, $key) {
+      @return false;
+    }
+    $map: map-get($map, $key);
+  }
+  @return true;
+}
+
+/// Validate color value
+/// @param {*} $value - Value to validate
+/// @return {Boolean} - True if valid color
+@function is-color($value) {
+  @return type-of($value) == color;
+}
+
+/// Validate number value
+/// @param {*} $value - Value to validate
+/// @return {Boolean} - True if valid number
+@function is-number($value) {
+  @return type-of($value) == number;
+}

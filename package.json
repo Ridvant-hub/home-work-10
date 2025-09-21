@@ -1,0 +1,113 @@
+{
+  "name": "simple-site-scss-enhanced",
+  "version": "2.0.0",
+  "description": "Enhanced Simple Site Template with advanced SCSS architecture",
+  "main": "index.html",
+  "scripts": {
+    "build": "sass scss/style-original.scss assets/css/style.css --style=compressed --source-map",
+    "build:full": "sass scss/style.scss assets/css/style.css --style=compressed --source-map",
+    "dev": "sass scss/style-original.scss assets/css/style.css --style=expanded --source-map --watch",
+    "dev:full": "sass scss/style.scss assets/css/style.css --style=expanded --source-map --watch",
+    "dev:server": "concurrently \"npm run dev\" \"live-server --port=3000 --open=/\"",
+    "lint:scss": "stylelint \"scss/**/*.scss\" --fix",
+    "format": "prettier --write \"scss/**/*.scss\"",
+    "clean": "rimraf assets/css/style.css assets/css/style.css.map",
+    "validate:html": "html-validate index.html",
+    "validate:css": "css-validator assets/css/style.css",
+    "optimize:images": "imagemin assets/images/* --out-dir=assets/images/optimized",
+    "analyze": "sass scss/style.scss assets/css/style.css --style=expanded --source-map && bundlesize",
+    "test": "npm run build && npm run validate:html && npm run lint:scss",
+    "deploy": "npm run clean && npm run build && npm run test"
+  },
+  "keywords": [
+    "scss",
+    "sass",
+    "css",
+    "responsive",
+    "template",
+    "website",
+    "frontend",
+    "modern"
+  ],
+  "author": "Enhanced by SCSS Architecture",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard-scss": "^11.0.0",
+    "stylelint-scss": "^5.3.0",
+    "prettier": "^3.0.3",
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "rimraf": "^5.0.5",
+    "html-validate": "^8.7.0",
+    "css-validator": "^2.1.0",
+    "imagemin": "^8.0.1",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "bundlesize": "^0.18.1"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not dead",
+    "> 0.2%",
+    "last 2 versions"
+  ],
+  "bundlesize": [
+    {
+      "path": "./assets/css/style.css",
+      "maxSize": "50 kB",
+      "compression": "gzip"
+    }
+  ],
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard-scss"
+    ],
+    "rules": {
+      "scss/at-import-partial-extension": null,
+      "scss/load-no-partial-leading-underscore": null,
+      "selector-class-pattern": null,
+      "custom-property-pattern": null,
+      "scss/dollar-variable-pattern": null,
+      "scss/percent-placeholder-pattern": null,
+      "function-no-unknown": [
+        true,
+        {
+          "ignoreFunctions": [
+            "map-get",
+            "map-has-key",
+            "color",
+            "font-size",
+            "font-weight",
+            "line-height",
+            "spacing",
+            "container",
+            "breakpoint",
+            "border-radius",
+            "shadow",
+            "z-index",
+            "color-variant",
+            "color-alpha"
+          ]
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "overrides": [
+      {
+        "files": "*.scss",
+        "options": {
+          "parser": "scss"
+        }
+      }
+    ]
+  }
+}

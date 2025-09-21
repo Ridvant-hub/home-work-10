@@ -1,0 +1,542 @@
+// =============================================================================
+// SCSS Mixins - Reusable patterns and utilities
+// =============================================================================
+
+// Media Query Mixins
+// =============================================================================
+/// Media query mixin for responsive design
+/// @param {String} $breakpoint - Breakpoint name or custom value
+/// @param {String} $direction - 'up', 'down', 'between', 'only'
+/// @param {String} $breakpoint2 - Second breakpoint for 'between'
+@mixin media($breakpoint, $direction: up, $breakpoint2: null) {
+  $bp-value: null;
+  $bp2-value: null;
+  
+  // Get breakpoint value
+  @if map-has-key($breakpoints, $breakpoint) {
+    $bp-value: map-get($breakpoints, $breakpoint);
+  } @else {
+    $bp-value: $breakpoint;
+  }
+  
+  // Get second breakpoint value for 'between'
+  @if $breakpoint2 {
+    @if map-has-key($breakpoints, $breakpoint2) {
+      $bp2-value: map-get($breakpoints, $breakpoint2);
+    } @else {
+      $bp2-value: $breakpoint2;
+    }
+  }
+  
+  // Generate media query
+  @if $direction == up {
+    @media (min-width: #{$bp-value}) {
+      @content;
+    }
+  } @else if $direction == down {
+    @media (max-width: #{$bp-value - 1px}) {
+      @content;
+    }
+  } @else if $direction == between {
+    @media (min-width: #{$bp-value}) and (max-width: #{$bp2-value - 1px}) {
+      @content;
+    }
+  } @else if $direction == only {
+    $next-bp: null;
+    $breakpoint-names: map-keys($breakpoints);
+    $current-index: index($breakpoint-names, $breakpoint);
+    
+    @if $current-index < length($breakpoint-names) {
+      $next-bp: nth($breakpoint-names, $current-index + 1);
+      $next-bp: map-get($breakpoints, $next-bp);
+      
+      @media (min-width: #{$bp-value}) and (max-width: #{$next-bp - 1px}) {
+        @content;
+      }
+    } @else {
+      @media (min-width: #{$bp-value}) {
+        @content;
+      }
+    }
+  }
+}
+
+/// Shorthand media query mixins
+@mixin mobile-up {
+  @include media(mobile) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @include media(tablet) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @include media(desktop) {
+    @content;
+  }
+}
+
+@mixin mobile-only {
+  @include media(mobile, down) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @include media(tablet, only) {
+    @content;
+  }
+}
+
+// Typography Mixins
+// =============================================================================
+/// Font face mixin
+/// @param {String} $name - Font family name
+/// @param {String} $path - Path to font files
+/// @param {Number} $weight - Font weight
+/// @param {String} $style - Font style
+@mixin font-face($name, $path, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: quote($name);
+    src: url($path + '.woff2') format('woff2'),
+         url($path + '.woff') format('woff');
+    font-weight: $weight;
+    font-style: $style;
+    font-display: swap;
+  }
+}
+
+/// Typography preset mixin
+/// @param {String} $size - Font size key
+/// @param {String} $weight - Font weight key
+/// @param {String} $line-height - Line height key
+/// @param {String} $letter-spacing - Letter spacing key
+@mixin typography($size, $weight: normal, $line-height: normal, $letter-spacing: normal) {
+  font-size: font-size($size);
+  font-weight: font-weight($weight);
+  line-height: line-height($line-height);
+  letter-spacing: map-get($letter-spacings, $letter-spacing);
+}
+
+/// Heading mixin with responsive sizing
+/// @param {Number} $mobile-size - Mobile font size
+/// @param {Number} $desktop-size - Desktop font size
+/// @param {String} $weight - Font weight
+@mixin heading($mobile-size, $desktop-size, $weight: medium) {
+  font-size: $mobile-size;
+  font-weight: font-weight($weight);
+  line-height: line-height(tight);
+  
+  @include tablet-up {
+    font-size: $desktop-size;
+  }
+}
+
+/// Truncate text with ellipsis
+/// @param {Number} $lines - Number of lines (1 for single line)
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Layout Mixins
+// =============================================================================
+/// Container mixin
+/// @param {String} $size - Container size
+/// @param {Boolean} $fluid - Whether container is fluid
+@mixin container($size: primary, $fluid: false) {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: spacing(4);
+  padding-right: spacing(4);
+  
+  @if not $fluid {
+    max-width: container($size);
+  }
+  
+  @include tablet-up {
+    padding-left: spacing(6);
+    padding-right: spacing(6);
+  }
+}
+
+/// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+/// Grid system mixin
+/// @param {Number} $columns - Number of columns
+/// @param {Number} $gap - Gap between items
+@mixin grid($columns: auto-fit, $gap: spacing(4)) {
+  display: grid;
+  gap: $gap;
+  
+  @if type-of($columns) == number {
+    grid-template-columns: repeat($columns, 1fr);
+  } @else {
+    grid-template-columns: repeat($columns, minmax(250px, 1fr));
+  }
+}
+
+/// Aspect ratio mixin
+/// @param {Number} $width - Aspect width
+/// @param {Number} $height - Aspect height
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    display: block;
+    padding-top: aspect-ratio($width, $height);
+  }
+  
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Visual Effects Mixins
+// =============================================================================
+/// Button mixin with variants
+/// @param {String} $variant - Button variant (primary, secondary, outline)
+/// @param {String} $size - Button size (sm, md, lg)
+@mixin button($variant: primary, $size: md) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: border-radius(md);
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: map-get($letter-spacings, wide);
+  transition: map-get($transitions, default);
+  font-family: inherit;
+  
+  // Size variations
+  @if $size == sm {
+    padding: spacing(2) spacing(4);
+    font-size: font-size(sm);
+    min-height: 40px;
+  } @else if $size == lg {
+    padding: spacing(4) spacing(8);
+    font-size: font-size(lg);
+    min-height: 56px;
+  } @else {
+    padding: spacing(3) spacing(6);
+    font-size: font-size(base);
+    min-height: 48px;
+  }
+  
+  // Style variations
+  @if $variant == primary {
+    background-color: color(primary);
+    color: color(white);
+    
+    &:hover:not(:disabled) {
+      background-color: color(primary-dark);
+      transform: translateY(-1px);
+    }
+  } @else if $variant == secondary {
+    background-color: color(secondary);
+    color: color(white);
+    
+    &:hover:not(:disabled) {
+      background-color: color(secondary-dark);
+      transform: translateY(-1px);
+    }
+  } @else if $variant == outline {
+    background-color: transparent;
+    color: color(primary);
+    border: 2px solid color(primary);
+    
+    &:hover:not(:disabled) {
+      background-color: color(primary);
+      color: color(white);
+    }
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+  
+  &:focus-visible {
+    outline: 2px solid color(primary);
+    outline-offset: 2px;
+  }
+}
+
+/// Card mixin
+/// @param {String} $shadow - Shadow level
+/// @param {String} $radius - Border radius
+@mixin card($shadow: base, $radius: lg) {
+  background-color: color(white);
+  border-radius: border-radius($radius);
+  box-shadow: shadow($shadow);
+  overflow: hidden;
+  transition: map-get($transitions, default);
+  
+  &:hover {
+    box-shadow: shadow(lg);
+    transform: translateY(-2px);
+  }
+}
+
+/// Input field mixin
+@mixin input-field {
+  width: 100%;
+  padding: spacing(3) spacing(4);
+  border: 2px solid color(light);
+  border-radius: border-radius(md);
+  font-size: font-size(base);
+  font-family: inherit;
+  background-color: color(white);
+  transition: map-get($transitions, default);
+  
+  &:focus {
+    outline: none;
+    border-color: color(primary);
+    box-shadow: 0 0 0 3px color-alpha(color(primary), 0.1);
+  }
+  
+  &::placeholder {
+    color: color(secondary-light);
+  }
+  
+  &:disabled {
+    background-color: color(light);
+    cursor: not-allowed;
+  }
+}
+
+// Animation Mixins
+// =============================================================================
+/// Fade in animation
+/// @param {Number} $duration - Animation duration
+/// @param {String} $timing - Timing function
+@mixin fade-in($duration: map-get($animations, duration-normal), $timing: map-get($animations, timing-ease-out)) {
+  opacity: 0;
+  animation: fadeIn $duration $timing forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/// Slide in animation
+/// @param {String} $direction - Slide direction (up, down, left, right)
+/// @param {Number} $distance - Slide distance
+/// @param {Number} $duration - Animation duration
+@mixin slide-in($direction: up, $distance: 30px, $duration: map-get($animations, duration-normal)) {
+  opacity: 0;
+  
+  @if $direction == up {
+    transform: translateY($distance);
+  } @else if $direction == down {
+    transform: translateY(-$distance);
+  } @else if $direction == left {
+    transform: translateX($distance);
+  } @else if $direction == right {
+    transform: translateX(-$distance);
+  }
+  
+  animation: slideIn#{capitalize($direction)} $duration map-get($animations, timing-ease-out) forwards;
+}
+
+@keyframes slideInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/// Hover lift effect
+@mixin hover-lift($distance: 4px) {
+  transition: transform map-get($animations, duration-normal) map-get($animations, timing-ease-out);
+  
+  &:hover {
+    transform: translateY(-$distance);
+  }
+}
+
+// Utility Mixins
+// =============================================================================
+/// Visually hidden mixin
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+/// Clearfix mixin
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+/// Reset list styles
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/// Reset button styles
+@mixin reset-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+/// Position absolute center
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/// Generate spacing utilities
+/// @param {String} $property - CSS property (margin, padding)
+/// @param {String} $prefix - Class prefix
+@mixin generate-spacing($property, $prefix) {
+  @each $name, $value in $spacings {
+    .#{$prefix}-#{$name} {
+      #{$property}: $value !important;
+    }
+    
+    .#{$prefix}t-#{$name} {
+      #{$property}-top: $value !important;
+    }
+    
+    .#{$prefix}r-#{$name} {
+      #{$property}-right: $value !important;
+    }
+    
+    .#{$prefix}b-#{$name} {
+      #{$property}-bottom: $value !important;
+    }
+    
+    .#{$prefix}l-#{$name} {
+      #{$property}-left: $value !important;
+    }
+    
+    .#{$prefix}x-#{$name} {
+      #{$property}-left: $value !important;
+      #{$property}-right: $value !important;
+    }
+    
+    .#{$prefix}y-#{$name} {
+      #{$property}-top: $value !important;
+      #{$property}-bottom: $value !important;
+    }
+  }
+}
+
+// Debug Mixins
+// =============================================================================
+/// Debug borders for layout debugging
+@mixin debug-borders($color: red) {
+  * {
+    border: 1px solid $color !important;
+  }
+}
+
+/// Debug grid overlay
+@mixin debug-grid($columns: 12, $color: rgba(red, 0.1)) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent calc(100% / #{$columns} - 1px),
+      $color calc(100% / #{$columns} - 1px),
+      $color calc(100% / #{$columns})
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+}

@@ -1,0 +1,221 @@
+// =============================================================================
+// SCSS Variables - Enhanced version of CSS custom properties
+// =============================================================================
+
+// Colors
+// =============================================================================
+$colors: (
+  // Primary colors
+  primary: #34547a,
+  primary-light: lighten(#34547a, 15%),
+  primary-dark: darken(#34547a, 15%),
+  primary-alpha: rgba(#34547a, 0.8),
+  
+  // Secondary colors  
+  secondary: #727272,
+  secondary-light: lighten(#727272, 20%),
+  secondary-dark: darken(#727272, 20%),
+  
+  // Neutral colors
+  black: #000000,
+  white: #ffffff,
+  light: #eeeff1,
+  light-dark: darken(#eeeff1, 5%),
+  
+  // State colors
+  success: #28a745,
+  warning: #ffc107,
+  danger: #dc3545,
+  info: #17a2b8,
+  
+  // Gradient colors
+  gradient-primary: linear-gradient(135deg, #34547a 0%, #4a6fa5 100%),
+  gradient-secondary: linear-gradient(135deg, #727272 0%, #8a8a8a 100%)
+);
+
+// Typography
+// =============================================================================
+$font-families: (
+  primary: ('Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif),
+  secondary: ('Georgia', 'Times New Roman', serif),
+  mono: ('Consolas', 'Monaco', 'Courier New', monospace)
+);
+
+$font-sizes: (
+  xs: 0.75rem,    // 12px
+  sm: 0.875rem,   // 14px
+  base: 1rem,     // 16px
+  lg: 1.125rem,   // 18px
+  xl: 1.25rem,    // 20px
+  2xl: 1.5rem,    // 24px
+  3xl: 1.875rem,  // 30px
+  4xl: 2.25rem,   // 36px
+  5xl: 3rem,      // 48px
+  6xl: 3.75rem    // 60px
+);
+
+$font-weights: (
+  light: 300,
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  black: 900
+);
+
+$line-heights: (
+  none: 1,
+  tight: 1.2,
+  snug: 1.375,
+  normal: 1.5,
+  relaxed: 1.625,
+  loose: 2
+);
+
+$letter-spacings: (
+  tighter: -0.05em,
+  tight: -0.025em,
+  normal: 0,
+  wide: 0.025em,
+  wider: 0.05em,
+  widest: 0.1em
+);
+
+// Spacing
+// =============================================================================
+$spacing-base: 1rem; // 16px
+
+$spacings: (
+  0: 0,
+  1: $spacing-base * 0.25,    // 4px
+  2: $spacing-base * 0.5,     // 8px
+  3: $spacing-base * 0.75,    // 12px
+  4: $spacing-base,           // 16px
+  5: $spacing-base * 1.25,    // 20px
+  6: $spacing-base * 1.5,     // 24px
+  8: $spacing-base * 2,       // 32px
+  10: $spacing-base * 2.5,    // 40px
+  12: $spacing-base * 3,      // 48px
+  16: $spacing-base * 4,      // 64px
+  20: $spacing-base * 5,      // 80px
+  24: $spacing-base * 6,      // 96px
+  32: $spacing-base * 8       // 128px
+);
+
+// Layout
+// =============================================================================
+$containers: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  2xl: 1320px,
+  primary: 1110px
+);
+
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  2xl: 1400px,
+  // Custom breakpoints
+  mobile: 480px,
+  tablet: 768px,
+  desktop: 1024px
+);
+
+$grid: (
+  columns: 12,
+  gutter: 1.5rem,
+  margin: 1.5rem
+);
+
+// Components
+// =============================================================================
+$border-radius: (
+  none: 0,
+  sm: 0.125rem,
+  base: 0.25rem,
+  md: 0.375rem,
+  lg: 0.5rem,
+  xl: 0.75rem,
+  2xl: 1rem,
+  3xl: 1.5rem,
+  full: 9999px
+);
+
+$shadows: (
+  none: none,
+  sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  base: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+  md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+  inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)
+);
+
+$transitions: (
+  none: none,
+  all: all 150ms ease-in-out,
+  default: all 250ms ease-in-out,
+  fast: all 150ms ease-in-out,
+  slow: all 500ms ease-in-out,
+  bounce: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55)
+);
+
+$z-indexes: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070
+);
+
+// Animation
+// =============================================================================
+$animations: (
+  duration-fast: 150ms,
+  duration-normal: 300ms,
+  duration-slow: 500ms,
+  
+  timing-linear: linear,
+  timing-ease: ease,
+  timing-ease-in: ease-in,
+  timing-ease-out: ease-out,
+  timing-ease-in-out: ease-in-out,
+  timing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+);
+
+// Legacy CSS Variables Support
+// =============================================================================
+:root {
+  // Colors
+  --color-primary: #{map-get($colors, primary)};
+  --color-secondary: #{map-get($colors, secondary)};
+  --color-black: #{map-get($colors, black)};
+  --color-white: #{map-get($colors, white)};
+  --color-light: #{map-get($colors, light)};
+  
+  // Typography
+  --font-primary: #{map-get($font-families, primary)};
+  --font-size-base: #{map-get($font-sizes, base)};
+  --font-weight-normal: #{map-get($font-weights, normal)};
+  --font-weight-medium: #{map-get($font-weights, medium)};
+  --line-height-normal: #{map-get($line-heights, normal)};
+  --line-height-tight: #{map-get($line-heights, tight)};
+  --letter-spacing-wide: #{map-get($letter-spacings, widest)};
+  
+  // Spacing
+  --spacing-sm: #{map-get($spacings, 2)};
+  --spacing-md: #{map-get($spacings, 5)};
+  --spacing-lg: #{map-get($spacings, 8)};
+  
+  // Containers
+  --container-primary: #{map-get($containers, primary)};
+  --container-sm: #{map-get($containers, sm)};
+}

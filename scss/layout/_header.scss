@@ -1,0 +1,349 @@
+// =============================================================================
+// Header - Enhanced header component with responsive navigation
+// =============================================================================
+
+.header {
+  padding-top: spacing(16);
+  padding-bottom: spacing(32);
+  background-color: color(light);
+  position: relative;
+  
+  @include tablet-up {
+    padding-top: spacing(20);
+    padding-bottom: spacing(24);
+  }
+  
+  @include mobile-only {
+    padding-top: spacing(8);
+    padding-bottom: spacing(16);
+  }
+}
+
+// Navigation
+.navbar {
+  @include container;
+  margin-bottom: spacing(32);
+  position: relative;
+  
+  @include tablet-up {
+    margin-bottom: spacing(20);
+  }
+  
+  @include mobile-only {
+    margin-bottom: spacing(16);
+  }
+  
+  // Mobile toggle
+  &__toggle {
+    @include visually-hidden;
+  }
+  
+  // Hamburger button
+  &__btn {
+    @include reset-button;
+    @include flex-column;
+    gap: 4px;
+    padding: spacing(2);
+    margin-left: auto;
+    margin-bottom: spacing(5);
+    cursor: pointer;
+    transition: map-get($transitions, default);
+    display: none;
+    
+    @include tablet-only {
+      display: flex;
+    }
+    
+    @include mobile-only {
+      display: flex;
+    }
+    
+    &:hover {
+      opacity: 0.7;
+    }
+    
+    &:focus-visible {
+      outline: 2px solid color(primary);
+      outline-offset: 2px;
+      border-radius: border-radius(sm);
+    }
+  }
+  
+  // Hamburger lines
+  &__btn-row {
+    width: 24px;
+    height: 3px;
+    background-color: color(primary);
+    border-radius: border-radius(sm);
+    transition: all map-get($animations, duration-normal) map-get($animations, timing-ease-out);
+    display: block;
+    transform-origin: center;
+  }
+  
+  // Navigation list
+  &__list {
+    @include reset-list;
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: spacing(2) spacing(6);
+    margin-left: calc(#{spacing(2)} * -1);
+    
+    @include tablet-only {
+      @include flex-column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: color(white);
+      gap: 0;
+      margin-left: 0;
+      padding: spacing(5);
+      border-radius: border-radius(lg);
+      box-shadow: shadow(lg);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all map-get($animations, duration-normal) map-get($animations, timing-ease-out);
+      max-height: 0;
+      overflow: hidden;
+      z-index: z-index(dropdown);
+    }
+    
+    @include mobile-only {
+      @include flex-column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: color(white);
+      gap: 0;
+      margin-left: 0;
+      padding: spacing(4);
+      border-radius: border-radius(lg);
+      box-shadow: shadow(lg);
+      transform: translateY(-10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all map-get($transitions, default);
+      max-height: 0;
+      overflow: hidden;
+      z-index: z-index(dropdown);
+    }
+  }
+  
+  // Navigation items
+  &__item {
+    // No specific styles needed, using flex on parent
+  }
+  
+  // Navigation links
+  &__link {
+    position: relative;
+    display: block;
+    letter-spacing: map-get($letter-spacings, widest);
+    padding: spacing(2);
+    text-transform: uppercase;
+    font-weight: font-weight(normal);
+    color: color(black);
+    text-decoration: none;
+    transition: map-get($transitions, default);
+    border-radius: border-radius(sm);
+    
+    // Hover effect
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      bottom: 0;
+      left: calc(#{spacing(2)} * -1);
+      right: calc(#{spacing(2)} * -1);
+      height: 3px;
+      background-color: color(primary);
+      border-radius: border-radius(sm);
+      transform: scaleX(0);
+      transform-origin: center;
+      opacity: 0;
+      transition: all map-get($animations, duration-normal) map-get($animations, timing-ease-out);
+    }
+    
+    &:hover {
+      color: color(primary);
+      
+      &::after {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+    
+    &:focus-visible {
+      outline: 2px solid color(primary);
+      outline-offset: 2px;
+    }
+    
+    // Active state
+    &--active {
+      color: color(primary);
+      font-weight: font-weight(medium);
+      
+      &::after {
+        transform: scaleX(1);
+        opacity: 1;
+      }
+    }
+    
+    // Mobile/tablet styles
+    @include tablet-only {
+      padding: spacing(3) 0;
+      border-bottom: 1px solid color-alpha(color(primary), 0.1);
+      
+      &::after {
+        display: none;
+      }
+      
+      &:hover {
+        background-color: color-alpha(color(primary), 0.05);
+        padding-left: spacing(2);
+      }
+    }
+    
+    @include mobile-only {
+      padding: spacing(2) 0;
+      border-bottom: 1px solid color-alpha(color(primary), 0.1);
+      
+      &::after {
+        display: none;
+      }
+      
+      &:hover {
+        background-color: color-alpha(color(primary), 0.05);
+        padding-left: spacing(2);
+      }
+    }
+  }
+  
+  // Show mobile menu when toggle is checked
+  &__toggle:checked ~ &__list {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+  }
+  
+  // Hamburger animation when menu is open
+  &__toggle:checked ~ &__btn {
+    .navbar__btn-row {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      &:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+      }
+      
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+      }
+    }
+  }
+}
+
+// Hero section
+.hero {
+  @include container;
+  @include flex-column;
+  align-items: flex-start;
+  max-width: container(sm);
+  
+  &__title {
+    @include typography(5xl, medium, tight);
+    margin-bottom: spacing(12);
+    color: color(black);
+    
+    @include tablet-up {
+      @include typography(6xl, medium, tight);
+      margin-bottom: spacing(16);
+    }
+    
+    @include mobile-only {
+      @include typography(4xl, medium, tight);
+      margin-bottom: spacing(8);
+    }
+  }
+  
+  &__description {
+    margin-bottom: spacing(14);
+    color: color(secondary);
+    font-size: font-size(base);
+    line-height: line-height(relaxed);
+    
+    @include tablet-up {
+      font-size: font-size(lg);
+      margin-bottom: spacing(16);
+    }
+    
+    @include mobile-only {
+      font-size: font-size(sm);
+      margin-bottom: spacing(10);
+    }
+  }
+  
+  &__button {
+    // Styles are extended from .btn in buttons component
+    // Additional hero-specific styles can be added here
+    @include hover-lift(2px);
+  }
+}
+
+// Sticky header variant (if needed)
+.header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: z-index(sticky);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: color-alpha(color(white), 0.95);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+  }
+}
+
+// Header with background image variant
+.header--bg-image {
+  background-image: linear-gradient(
+    135deg,
+    color-alpha(color(light), 0.9),
+    color-alpha(color(white), 0.9)
+  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  .hero__title {
+    text-shadow: 0 2px 4px color-alpha(color(black), 0.1);
+  }
+}
+
+// Animation for hero elements
+@include tablet-up {
+  .hero__title {
+    @include slide-in(up, 30px, 0.6s);
+    animation-delay: 0.2s;
+  }
+  
+  .hero__description {
+    @include slide-in(up, 30px, 0.6s);
+    animation-delay: 0.4s;
+  }
+  
+  .hero__button {
+    @include slide-in(up, 30px, 0.6s);
+    animation-delay: 0.6s;
+  }
+}
